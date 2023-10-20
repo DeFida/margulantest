@@ -2,16 +2,15 @@ version: '3.8'
 services:
   back:
     build: ./margulan-back
-    container_name: back-container
+    container_name: back_container
     ports: 
       - '3001:3001'
     volumes:
-      - /Users/defida/Documents/Margulan/margulan-back:/back-container
-      - /back-container/node_modules
+      - /Users/defida/Documents/Margulan/margulan-back:/back_container
+      - /back_container/node_modules
   front:
-    stdin_open: true
     build: ./margulan
-    container_name: front-container
+    container_name: front_container
     ports:
-      - "3000:3000"
-    tty: true
+      - '3000:3000'
+    stdin_open: true
