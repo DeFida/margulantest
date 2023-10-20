@@ -1,0 +1,19 @@
+.Button {
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    outline: none;
+    border: none;
+    margin: 0;
+    cursor: pointer;
+}
+
+.button_light {
+    color: #1C2D37;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.button_dark {
+    color: #1C2D37;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+

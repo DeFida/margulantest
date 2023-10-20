@@ -1,0 +1,120 @@
+/* Assuming that you have already defined the colors elsewhere */
+/* You can replace $white-color with 'white', $main-color with '#1C2D37', and $green-color with '#1C7C54' */
+
+.profile {
+    width: 100%;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile .wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+.profile .wrapper .button {
+    background-color: #1C7C54;
+    color: white;
+}
+
+.profile .wrapper_light {
+    border-bottom: 1px dashed #1C2D37;
+}
+
+.profile .wrapper_dark {
+    border-bottom: 1px dashed white;
+}
+
+.games {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+.games .game {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.games .game .info {
+    width: 100%;
+    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.games .game .info_light {
+    border-bottom: 1px solid #1c2d3775;
+}
+
+.games .game .info_dark {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.games .game .points {
+    display: flex;
+    width: calc(100% - 0.5rem);
+    padding-left: 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.popup {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(124, 122, 122, 0.15);
+}
+
+.popup .container {
+    width: max-content;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    border-radius: 1rem;
+    align-items: center;
+    gap: 1rem;
+}
+
+.popup .container .header {
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    justify-content: space-between;
+}
+
+.popup .container .button {
+    width: 100%;
+}
+
+.popup .container_light {
+    background-color: #DCDCD2;
+}
+
+.popup .container_dark {
+    background-color: #1C2D37;
+}
