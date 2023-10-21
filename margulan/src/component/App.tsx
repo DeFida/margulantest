@@ -12,6 +12,8 @@ import Host from './Host/Host';
 import Join from './Join/Join';
 import HostLobby from './HostLobby/HostLobby';
 import Game from './Game/Game';
+import WaitLobby from './WaitLobby/WaitLobby';
+
 
 function App() {
 
@@ -50,8 +52,10 @@ function App() {
 
         <Route path='host' element={<Host />} />
         <Route path='join' element={<Join />} />
+        <Route path='wait' element={<WaitLobby />} />
         <Route path='hosts/:hostId' element={<HostLobby />} />
         <Route path='games/:gameId' element={<Game />} />
+        
       </Routes>
       
 

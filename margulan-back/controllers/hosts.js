@@ -69,6 +69,21 @@ module.exports.joinHost = async (req, res, next) => {
     }
 }
 
+module.exports.joinHostRandom = async (req, res, next) => {
+    try {
+        const { hostId } = req.params;
+        const host = await Host.findById(hostId).populate('players').populate('host').populate({ path: 'games', populate: { path: 'points.player', module: 'PLayer' } });
+        const hostToken = jwt.sign({ _id: host._id, name: host.name }, process.env.JWT_SECRET, { expiresIn: '5d' });
+        res.cookie('hostToken', hostToken, { maxAge: 5 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, path: '/', });
+        return res.send(host);
+    }
+    catch (e) {
+        console.log(e);
+        return next(e);
+
+    }
+}
+
 
 module.exports.checkHost = async (req, res, next) => {
     try {
@@ -99,7 +114,6 @@ module.exports.checkJoinHost = async (req, res, next) => {
 module.exports.deleteHost = async (req, res, next) => {
     try {
         const { hostId } = req.params;
-        console.log('\n\n', hostId);
         const host = await Host.findByIdAndDelete(hostId);
         res.clearCookie('hostToken', { httpOnly: true, secure: true, path: '/', });
         return res.send(host)

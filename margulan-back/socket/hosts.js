@@ -30,6 +30,21 @@ module.exports.getActiveHosts = async () => {
     }
 }
 
+module.exports.randomHost = async (user, playerId) => {
+    try {
+        const host = await Host.create({ host: user._id, waitTime: 15, points: 3, maxUsers: 3 })
+        const players = [];
+        players.push(user._id)
+        players.push(playerId);
+        host.players = players;
+        await host.save()
+        return host;
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
 module.exports.activateHost = async (hostId) => {
     try {
         const host = await Host.findByIdAndUpdate(hostId, { active: true }, { new: true, runValidators: true }).populate('players').populate('host').populate({ path: 'games', populate: { path: 'points.player', module: 'PLayer' } });
@@ -51,7 +66,6 @@ module.exports.deactivateHost = async (userId) => {
 }
 
 module.exports.leaveHost = async (userId, hostId) => {
-    console.log(hostId);
     try {
         const host = await Host.findById(hostId)
         if (host.host !== userId) {
@@ -65,16 +79,3 @@ module.exports.leaveHost = async (userId, hostId) => {
 }
 
 
-
-
-// module.exports.leaveAllHosts = async (userId) => {
-//     try {
-//         const host = await Host.findOne({ players: userId })
-//         if (host.host !== userId) {
-//             await Host.findByIdAndUpdate(host._id, { $pull: { players: userId } })
-//         }
-//     }
-//     catch (e) {
-//         console.log(e);
-//     }
-// }

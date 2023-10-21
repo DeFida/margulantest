@@ -6,7 +6,6 @@ const Sign = require("../models/sign");
 
 module.exports.startRound = async (data) => {
     try {
-        console.log("\nI WAS CALLED!\n");
         const { hostId, gameId } = data;
         const host = await Host.findById(hostId);
 
@@ -23,7 +22,6 @@ module.exports.startRound = async (data) => {
 module.exports.selectSign = async (data) => {
     try {
         const { userId, roundId, sign } = data;
-        console.log(userId, roundId, sign);
 
         const selectedSign = await Sign.create({ player: userId, sign })
         await selectedSign.populate('player')

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { createHost, joinHost, checkHost, checkJoinHost, getHost, deleteHost, getHosts } = require('../controllers/hosts');
+const { createHost, joinHost, checkHost, checkJoinHost, getHost, deleteHost, getHosts, joinHostRandom } = require('../controllers/hosts');
 const { celebrate, Joi } = require('celebrate');
 const auth = require('../middlewares/auth')
 
@@ -16,6 +16,7 @@ router.get('/:hostId', getHost)
 
 router.post("/", createHost);
 router.patch("/join/:hostId", joinHost);
+router.patch("/joinRandom/:hostId", joinHostRandom);
 
 router.delete('/:hostId', deleteHost);
 

@@ -16,7 +16,10 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Game"
         }
-    ]
+    ],
+    active: {
+        type: Boolean
+    }
 });
 
 userSchema.statics.findUserByCredentials = function (username, password) {

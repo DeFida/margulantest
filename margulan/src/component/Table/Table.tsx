@@ -11,9 +11,10 @@ interface TableContext {
   points: {player: any, point: number}[];
   round: Round | null;
   signs: Sign[];
+  showSigns: boolean;
 }
 
-const Table: FC<TableContext> = ({ players, timer, points, round, signs }) => {
+const Table: FC<TableContext> = ({ players, timer, points, round, signs, showSigns }) => {
   const {theme} = useAppContext();
   const n = players.length;
   const angleIncrement = 360 / n;
@@ -22,6 +23,13 @@ const Table: FC<TableContext> = ({ players, timer, points, round, signs }) => {
   const [tablePoints, setTablePoints] = useState(points);
   
   const [time, setTime] = useState<number>(0);
+
+  const signMap: { [key: string]: JSX.Element } = {
+    '&#9994;': <span>&#9994;</span>,
+    '&#9996;': <span>&#9996;</span>,
+    '&#128400;': <span>&#128400;</span>,
+  };
+  
 
   useEffect(() => {
     if (round) {
@@ -69,7 +77,7 @@ const Table: FC<TableContext> = ({ players, timer, points, round, signs }) => {
         const left = radius + radius * Math.cos((angle * Math.PI) / 180) - playerRadius;
         const top = radius + radius * Math.sin((angle * Math.PI) / 180) - playerRadius;
 
-        const isSign = Array.from(signs).some((sign: Sign) => (sign.player._id).toString() === player._id );
+        const mySign = Array.from(signs).find((sign: Sign) => (sign.player._id).toString() === player._id );
 
         const position = {
           top: `${top}px`,
@@ -77,12 +85,12 @@ const Table: FC<TableContext> = ({ players, timer, points, round, signs }) => {
         };
 
         return (
-
           <>
 
-            <div className={`${styles.player} ${styles[`player_${theme}`]} ${signs && isSign ? styles.selectedSign : ''}`} key={index} style={position}>
-              <Paragraph className={`${styles.text}`}>{player.username}</Paragraph>
-              <Paragraph className={`${styles.text}`}>{point?.point}</Paragraph>
+            <div className={`${styles.player} ${styles[`player_${theme}`]} ${signs && mySign ? styles.selectedSign : ''}`} key={index} style={position}>
+              <Paragraph className={`${styles[`text_${theme}`]}`}>{player.username}</Paragraph>
+              <Paragraph className={`${styles[`text_${theme}`]}`}>{point?.point}</Paragraph>
+              {mySign && showSigns &&  <Paragraph className={`${styles.text}`}>{signMap[mySign.sign]}</Paragraph>}
             </div>
           </>
           

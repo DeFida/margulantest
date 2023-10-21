@@ -32,6 +32,10 @@ export default class HostAPI {
     return axios.patch(`${this.AUTH_API}/hosts/join/${hostId}`, { headers: this.headers });
   }
 
+  joinHostRandom(hostId: string) {
+    return axios.patch(`${this.AUTH_API}/hosts/joinRandom/${hostId}`, { headers: this.headers });
+  }
+
   checkHost() {
     return axios.get(`${this.AUTH_API}/hosts/checkHost`, { headers: this.headers });
   }   

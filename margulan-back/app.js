@@ -13,9 +13,10 @@ const centralizedErrorHandler = require('./middlewares/centralizedErrorHandler')
 const { errors } = require('celebrate');
 
 const NotFoundError = require('./errors/not-found-err');
-const { activateHost, deactivateHost, getActiveHosts, getHost, joinHost, leaveHost } = require('./socket/hosts');
-const { runGame, joinGame, leaveGame } = require('./socket/games');
+const { activateHost, deactivateHost, getActiveHosts, getHost, joinHost, leaveHost, randomHost } = require('./socket/hosts');
+const { runGame, leaveGame } = require('./socket/games');
 const { startRound, selectSign, checkResults } = require('./socket/rounds')
+const { activateMe, findPlayer } = require('./socket/users')
 const Host = require('./models/host');
 const Game = require('./models/game');
 
@@ -139,13 +140,34 @@ io.on('connection', (socket) => {
         }, host.waitTime * 1000);
     })
 
+    socket.on('readyToStart', async (hostId) => {
+        socket.join((hostId).toString());
+        const host = await Host.findById(hostId)
+        if ((host.games).length < 1) {
+            console.log("GAMES LENGTH: ", (host.games).length);
+            socket.emit('startRandomGame', hostId)
+        }
+
+    })
+
+    socket.on('iamactive', async () => {
+        const me = await activateMe(userId);
+        const player = await findPlayer(userId);
+
+        if (player) {
+            const host = await randomHost(me, player._id)
+            socket.join((host._id).toString())
+            socket.emit('joinMe', { hostId: host._id })
+            io.emit('joinRandom', { playerId: player._id, hostId: host._id })
+        }
+    })
+
     socket.on('joinHostRoom', async ({ hostId }) => {
         socket.join(hostId);
     })
 
     socket.on('selectSign', async (data) => {
         const { hostId, roundId, sign } = data;
-        console.log(hostId, roundId, sign);
         const selectedSign = await selectSign({ userId, roundId, sign });
         socket.emit('mySelectedSign', selectedSign)
         io.to(hostId).emit('signSelected', selectedSign);

@@ -38,6 +38,10 @@ const Join = () => {
         }
     }
 
+    function withRandomUser() {
+        navigate('/wait')
+    }
+
     useEffect(() => {
         handleBackendEvent('updateHosts', (hosts: Host[]) => {
             setHosts(hosts)
@@ -55,7 +59,7 @@ const Join = () => {
             <div className={`${styles.wrapper} ${styles[`wrapper_${theme}`]}`}>
                 <Paragraph>Wait</Paragraph>
                 <span style={{display: 'flex', gap: '1rem'}}>
-                    <Button>Play with random user</Button>
+                    <Button onClick={withRandomUser}>Play with random user</Button>
                 </span>
             </div>
             <div className={`${styles.hosts}`}>

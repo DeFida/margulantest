@@ -51,10 +51,6 @@
   border: 3px solid var(--main-color);
 }
 
-.player_light .text {
-  color: var(--white);
-}
-
 .circle-container_light {
   border: 1px solid var(--main-color);
 }
@@ -64,8 +60,14 @@
   border: 3px solid var(--white);
 }
 
-.player_dark .text {
+.text_dark {
+  font-size: 10px;
   color: var(--main-color);
+} 
+
+.text_light {
+  font-size: 10px;
+  color: var(--white);
 }
 
 .selectedSign {

@@ -28,6 +28,7 @@ const GameComponent = () => {
     const [roundStarted, setRoundStarted] = useState(false);
     const [gameStarted, setGameStarted] = useState(false);
     const [signs, setSigns] = useState<Sign[]>([]);
+    const [showSigns, setShowSigns] = useState(false)
 
     const [canSelect, setCanSelect] = useState(true);
 
@@ -127,13 +128,15 @@ const GameComponent = () => {
         handleBackendEvent('roundStarted', (round: Round) => {
             console.log('ROUND WAS STARTED');
             setRound(round)
+            setShowSigns(false)
+            setSigns([])
             setTime(round.timer)
         })
     }, [handleBackendEvent])
 
     useEffect(() => {
         handleBackendEvent('timerComplete', (game: Game) => {
-            console.log('ROUND WAS END');
+
             if (user) {
                 const gamePlayers: User[] = [];
                 gamePlayers.push(user);
@@ -144,15 +147,13 @@ const GameComponent = () => {
                 }
                 setPlayers(gamePlayers)
             }
-            
+            setShowSigns(true)
             setRound(null);
-            setSigns([]);
             setCanSelect(true);
             setSelectedSign(null)
         })
     }, [handleBackendEvent])
     
-
     useEffect(() => {
         handleBackendEvent('ILeftTheGame', () => {
             leave();
@@ -260,11 +261,11 @@ const GameComponent = () => {
                     {host && <Button onClick={() => navigate('/host')}>Back to host</Button>}
                 </div>
                 
-                <Table players={players} points={points} timer={time} round={round} signs={signs} />
+                <Table players={players} points={points} showSigns={showSigns} timer={time} round={round} signs={signs} />
                 <div className={`${styles.controllers}`}>
-                    <Button className={`${styles.controller} ${selectedSign?.sign === '&#9994;' ? styles.selected : ''}`} onClick={() => selectSign('&#9994;')} >&#9994;</Button>
-                    <Button className={`${styles.controller} ${selectedSign?.sign === '&#9996;' ? styles.selected : ''}`} onClick={() => selectSign('&#9996;')}>&#9996;</Button>
-                    <Button className={`${styles.controller} ${selectedSign?.sign === '&#128400;' ? styles.selected : ''}`} onClick={() => selectSign('&#128400;')}>&#128400;</Button>
+                    <Button className={`${styles.controller} ${!canSelect ? styles.cantselect : ''} ${selectedSign?.sign === '&#9994;' ? styles.selected : ''}`} onClick={() => selectSign('&#9994;')} >&#9994;</Button>
+                    <Button className={`${styles.controller} ${!canSelect ? styles.cantselect : ''} ${selectedSign?.sign === '&#9996;' ? styles.selected : ''}`} onClick={() => selectSign('&#9996;')}>&#9996;</Button>
+                    <Button className={`${styles.controller} ${!canSelect ? styles.cantselect : ''} ${selectedSign?.sign === '&#128400;' ? styles.selected : ''}`} onClick={() => selectSign('&#128400;')}>&#128400;</Button>
                 </div>
             </div>
         }

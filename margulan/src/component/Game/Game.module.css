@@ -62,6 +62,11 @@
   .game .controllers .controller {
     font-size: 1.5rem;
   }
+
+  .cantselect {
+    cursor: default;
+    opacity: .5;
+  }
   
   .game .controllers .selected {
     background-color: var(--white);

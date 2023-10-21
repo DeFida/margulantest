@@ -94,7 +94,6 @@ const HostLobby = () => {
 
     useEffect(() => {
         handleBackendEvent('runGame', (game: Game) => {
-            
             navigate(`/games/${game._id}`) 
         })
     }, [handleBackendEvent])
