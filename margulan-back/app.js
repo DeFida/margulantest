@@ -175,8 +175,8 @@ io.on('connection', (socket) => {
 
     socket.on('leaveTheGame', async ({ hostId, gameId }) => {
         const game = await leaveGame(gameId);
-        io.to(hostId).emit('playerLeftTheGame', game.players);
         socket.emit('ILeftTheGame')
+        io.to(hostId).emit('playerLeftTheGame', game.players);
         socket.leave(hostId);
     })
 

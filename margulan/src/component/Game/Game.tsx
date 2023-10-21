@@ -156,9 +156,22 @@ const GameComponent = () => {
     
     useEffect(() => {
         handleBackendEvent('ILeftTheGame', () => {
-            leave();
-            deleteHost();
-            navigate('/');
+            navigate(`/`)
+        })
+    }, [handleBackendEvent])
+
+    useEffect(() => {
+        handleBackendEvent('playerLeftTheGame', (players: User[]) => {
+            
+            setPlayers(players)
+            if (players.length < 2) {
+                if (host) {
+                    navigate('/host')
+                }
+                else if (currentHost) {
+                    navigate(`/hosts/${currentHost._id}`)
+                }
+            }
         })
     }, [handleBackendEvent])
 
@@ -189,7 +202,7 @@ const GameComponent = () => {
 
     useEffect(() => {
         handleBackendEvent('stopgame', () => {
-            setPopup('Game was end')
+            setPopup('Game was over')
             setTimeout(() => {
                 if (host || currentHost) {
                     setPopup(false)
@@ -228,8 +241,6 @@ const GameComponent = () => {
         if (user && currentHost && gameId) {
             gameAPI.leaveGame({userId: user._id, hostId: currentHost._id, gameId})
             .then((res) => {
-                console.log(res);
-                
                 emitEvent('leaveTheGame', {hostId: currentHost._id, gameId})
             })
             .catch((err) => {
@@ -272,7 +283,7 @@ const GameComponent = () => {
             {popup && 
                 <div className={`${styles.popup}`}>
                     <div className={`${styles.container}`}>
-                        {popup === 'Draw' || popup === 'Game was end' ?
+                        {popup === 'Draw' || popup === 'Game was over' ?
                             <div className={`${styles.info}`}>
                                 <Paragraph style={{color: '#1C2D37'}}>{popup}</Paragraph>
                             </div>

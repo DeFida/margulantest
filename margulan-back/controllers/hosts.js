@@ -114,9 +114,23 @@ module.exports.checkJoinHost = async (req, res, next) => {
 module.exports.deleteHost = async (req, res, next) => {
     try {
         const { hostId } = req.params;
+        console.log("\n\n\n\nasdasd\n", hostId);
         const host = await Host.findByIdAndDelete(hostId);
         res.clearCookie('hostToken', { httpOnly: true, secure: true, path: '/', });
         return res.send(host)
+    }
+    catch (e) {
+        console.log(e);
+        return next(e)
+    }
+}
+
+module.exports.leaveHostRes = async (req, res, next) => {
+    try {
+
+        console.log("ASDASD");
+        res.clearCookie('currentHostToken', { httpOnly: true, secure: true, path: '/', });
+        return res.send({ message: 'yep' })
     }
     catch (e) {
         console.log(e);

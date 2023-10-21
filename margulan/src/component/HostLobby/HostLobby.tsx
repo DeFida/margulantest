@@ -66,15 +66,29 @@ const HostLobby = () => {
 
     useEffect(() => {
         handleBackendEvent('leftHost', () => {
-            navigate('/');
-            leave()
+            hostAPI.leaveHost()
+            .then(() => {
+                navigate('/');
+                leave()
+            })
+            .catch((err) => {
+                console.log(err);
+                
+            })
         })
     }, [handleBackendEvent])
 
     useEffect(() => {
         handleBackendEvent('hostDeleted', () => {
-            navigate('/');
-            leave()
+            hostAPI.leaveHost()
+            .then(() => {
+                navigate('/');
+                leave()
+            })
+            .catch((err) => {
+                console.log(err);
+                
+            })
         })
     }, [handleBackendEvent]);
 
