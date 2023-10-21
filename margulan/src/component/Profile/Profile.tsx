@@ -61,6 +61,7 @@ const Profile = () => {
                         </div>
                         <Button onClick={() => navigate('/host')} className={`${styles.button}`}>Host game</Button>
                         <Button onClick={() => navigate('/join')} className={`${styles.button}`}>Join game</Button>
+                        <Button onClick={() => navigate('/wait')} className={`${styles.button}`}>Play with random user</Button>
                     </div>
                 </div>
             }

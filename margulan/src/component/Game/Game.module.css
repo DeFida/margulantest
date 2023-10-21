@@ -69,6 +69,7 @@
   }
   
   .game .controllers .selected {
+    opacity: 1;
     background-color: var(--white);
   }
   
